@@ -56,7 +56,7 @@ const LoginForm = () => {
 
   const verifyLogin = async (e) => {
     e.preventDefault();
-    console.log(`SUBMITTED EMAIL: ${email} PASSWORD: ${password}`);
+    // console.log(`SUBMITTED EMAIL: ${email} PASSWORD: ${password}`);
     try {
       const response = await fetch('https://reqres.in/api/login', {
         method: 'POST',
@@ -68,15 +68,19 @@ const LoginForm = () => {
           password
         })
       });
-      if (response.status === 200) {
+
+      const data = response.json();
+      if (data.status === 200) {
         // reroute to landing page or throw alert with 'login successful'
-        console.log('response 200');
-        alert('Login Successful');
+        // alert('Login Successful');
+        return `${data.email} has successfully logged in`;
       }
       // enter you logic when the fetch is successful
     } catch (error) {
       // enter your logic for when there is an error (ex. error toast)
-      console.log(error);
+      // console.log(error);
+      // throw new Error('Login Failed');
+      return 'Login attempt failed';
     }
   };
 
@@ -101,11 +105,10 @@ const LoginForm = () => {
     <div className="login-wrapper">
       <img className="login-svg" src={undraw} />
       <div className="login-container">
-
         <form className="login-form" onSubmit={(e) => verifyLogin(e)}>
-        <div className="login-form-header-content">
-          <p>Login</p>
-        </div>
+          <div className="login-form-header-content">
+            <p>Login</p>
+          </div>
           <div className="login-email-input-container">
             <label className="login-email-label">Email</label>
             <input
